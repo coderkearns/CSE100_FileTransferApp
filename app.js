@@ -34,6 +34,10 @@ api.get("/:file", (req, res, next) => {
   })
 })
 
+// To post a file from cURL:
+// curl -X POST http://0.0.0.0:5000/api/:filename -d @./path/to/my/file
+// or
+// curl -X POST http://0.0.0.0:5000/api/:filename -d "$(somecommands | thatoutput | text)"
 api.post("/:file", (req, res, next) => {
   req.pipe(fs.createWriteStream(files(req.params.file)))
   req.on("end", () => {
