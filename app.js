@@ -20,6 +20,7 @@ function files(...args) {
   return path.join(__dirname, "files", ...args)
 }
 
+// curl http://0.0.0.0:5000/api/
 api.get("/", (req, res, next) => {
   fs.readdir(files(), (err, files) => {
     if (err) return next(error(500, "Internal Server Error"))
@@ -27,6 +28,7 @@ api.get("/", (req, res, next) => {
   })
 })
 
+// curl http://0.0.0.0:5000/api/:file > file-to-save.txt
 api.get("/:file", (req, res, next) => {
   fs.exists(files(req.params.file), exists => {
     if (!exists) return next(error("404", "That file does not exist"))
@@ -34,7 +36,6 @@ api.get("/:file", (req, res, next) => {
   })
 })
 
-// To post a file from cURL:
 // curl -X POST http://0.0.0.0:5000/api/:filename -d @./path/to/my/file
 // or
 // curl -X POST http://0.0.0.0:5000/api/:filename -d "$(somecommands | thatoutput | text)"
