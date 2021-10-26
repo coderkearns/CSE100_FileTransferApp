@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>File Transfer App - CSE100</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+      .download {
+        margin-right: 0.5em;
+      }
+      
+      a {
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="form" action="/api/" method="post" enctype="multipart/form-data">
+      <input id="file" type="file" name="file">
+      <input id="upload" type="submit" value="Upload">
+    </form>
+    <ul id="filelist">
+
+    </ul>
+    <script>
+        const filelist = document.getElementById('filelist');
+        const file = document.getElementById('file');
+        const upload = document.getElementById('upload');
+        const form = document.getElementById('form');
+
+        upload.addEventListener('click', function(e) {
+            e.preventDefault();
+            form.action = `/api/${file.files[0].name}`;
+            form.submit();
+            updateFileList()
+        });
+
+        const updateFileList = function() {
+            fetch('/api/')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    filelist.innerHTML = '';
+                    data.forEach(function(file) {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a class="download" href="/api/${file}/download">⇓</a><a href="/api/${file}">${file}</a>`;
+                        filelist.appendChild(li);
+                    });
+                });
+        };
+        
+        updateFileList();
+    </script>
+  </body>
+</html>
+

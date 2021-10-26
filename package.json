@@ -10,6 +10,7 @@
   "author": "Carter Kearns <coder.kearns@gmail.com> (https://github.com/coderkearns)",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.1.6",
     "express": "^4.17.1"
   }
 }
